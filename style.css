@@ -1,87 +1,87 @@
-@import url("https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap");
+// Criar marcadores das horas no relógio
+function criarMarcadores() {
+  const marcadores = document.getElementById('marcadores');
+  for (let i = 0; i < 12; i++) {
+    const angle = (i * 30 - 90) * (Math.PI / 180);
+    const x1 = 100 + 80 * Math.cos(angle);
+    const y1 = 100 + 80 * Math.sin(angle);
+    const x2 = 100 + 90 * Math.cos(angle);
+    const y2 = 100 + 90 * Math.sin(angle);
 
-:root {
-  --cor-de-fundo: #1e1e1e;
-  --verde: #6fff57;
-  --branco: #ffffff;
-  --botao-ativo: #3a375e;
-  --botao-inativo: rgba(58, 55, 94, 0.5);
-  --texto-fundo: rgba(58, 55, 94, 0.3);
-}
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', x1);
+    line.setAttribute('y1', y1);
+    line.setAttribute('x2', x2);
+    line.setAttribute('y2', y2);
+    line.setAttribute('stroke', '#6fff57');
+    line.setAttribute('stroke-width', i % 3 === 0 ? '3' : '2');
 
-body {
-  background-color: var(--cor-de-fundo);
-  color: var(--branco);
-  font-family: "Chakra Petch", sans-serif;
-}
-
-.conteudo-principal {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  max-width: 1200px;
-  width: 100%;
-  margin: 0 auto;
-}
-
-.titulo-principal {
-  text-align: left;
-  width: 100%;
-  font-size: 32px;
-}
-
-.titulo-principal span {
-  color: var(--verde);
-}
-
-.botao {
-  font-family: "Crakra Petch", sans-serif;
-  background-color: var(--botao-inativo);
-  color: var(--branco);
-  display: flex;
-  justify-content: center;
-  padding: 1em;
-  font-size: 18px;
-  align-items: center;
-  width: 100%;
-  border-bottom: 4px solid var(--botao-ativo);
-  border-left: 2px solid var(--botao-ativo);
-  border-right: 2px solid var(--botao-ativo);
-  border-top: none;
-}
-
-.botao:first-child {
-  border-radius: 40px 40px 0 0;
-}
-
-.botoes {
-  display: block;
-}
-@media screen and (min-width: 768px) {
-  .botoes {
-    display: flex;
+    marcadores.appendChild(line);
   }
 }
-@media screen and (min-width: 768px) {
-  /* Código omitido */
 
-  .botao:first-child {
-    border-radius: 40px 0 0 0;
-  }
-}
-@media screen and (min-width: 768px) {
-  /* Código omitido */
+// Atualizar relógio
+function atualizarRelogio() {
+  const agora = new Date();
 
-  .botao:last-child {
-    border-radius: 0 40px 0 0;
-  }
+  const horas = agora.getHours();
+  const minutos = agora.getMinutes();
+  const segundos = agora.getSeconds();
+
+  // Atualizar relógio digital
+  document.getElementById('horas').textContent = String(horas).padStart(2, '0');
+  document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
+  document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
+
+  // Atualizar data
+  const opcoes = {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  };
+  document.getElementById('data').textContent = agora.toLocaleDateString('pt-BR', opcoes);
+
+  // Calcular ângulos dos ponteiros
+  const segundosDegrees = (segundos / 60) * 360;
+  const minutosDegrees = (minutos / 60) * 360 + (segundos / 60) * 6;
+  const horasDegrees = ((horas % 12) / 12) * 360 + (minutos / 60) * 30;
+
+  // Atualizar ponteiros
+  document.getElementById('ponteiro-segundos').setAttribute(
+    'transform',
+    `rotate(${segundosDegrees} 100 100)`
+  );
+  document.getElementById('ponteiro-minutos').setAttribute(
+    'transform',
+    `rotate(${minutosDegrees} 100 100)`
+  );
+  document.getElementById('ponteiro-horas').setAttribute(
+    'transform',
+    `rotate(${horasDegrees} 100 100)`
+  );
 }
-.ativo {
-  background-color: var(--botao-ativo);
-  border-bottom: 4px solid var(--verde);
+
+// Gerenciar abas
+function trocarAba(numeroAba) {
+  // Remover classe ativo de todos os botões e conteúdos
+  document.querySelectorAll('.botao').forEach(btn => btn.classList.remove('ativo'));
+  document.querySelectorAll('.tab-conteudo').forEach(tab => tab.classList.remove('ativo'));
+
+  // Adicionar classe ativo no botão e conteúdo selecionados
+  document.querySelector(`[data-tab="${numeroAba}"]`).classList.add('ativo');
+  document.getElementById(`tab-${numeroAba}`).classList.add('ativo');
 }
-<button class="botao ativo">Cursos na Alura</button>
-<button class="botao">Criar projetos em Javascript</button>
-<button class="botao">Criar um portfolio</button>
-<button class="botao">Atualizar meu currículo</button>
+
+// Event listeners para os botões
+document.querySelectorAll('.botao').forEach(botao => {
+  botao.addEventListener('click', function() {
+    const numeroAba = this.getAttribute('data-tab');
+    trocarAba(numeroAba);
+  });
+});
+
+// Inicializar
+criarMarcadores();
+atualizarRelogio();
+setInterval(atualizarRelogio, 1000);
