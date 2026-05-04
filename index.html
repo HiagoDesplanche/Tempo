@@ -3,14 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Relógio Digital Alura</title>
+    <title>Relógio Minimalista</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
         body {
             height: 100vh;
@@ -18,230 +13,211 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            background-color: #2c3e50;
+            background: #121212;
+            color: #fff;
+            overflow: hidden;
         }
 
-        /* Estilo das abas */
+        /* Menu Minimalista */
         .tabs {
             display: flex;
-            gap: 20px;
+            gap: 5px;
             margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px;
+            border-radius: 12px;
         }
 
         .tab {
-            padding: 10px 20px;
-            background-color: #ecf0f1;
-            color: #2c3e50;
-            font-weight: bold;
+            padding: 6px 14px;
+            color: #888;
+            font-size: 0.75rem;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 5px 5px 0 0;
-            transition: background-color 0.3s;
-        }
-
-        .tab:hover {
-            background-color: #bdc3c7;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            transition: 0.3s;
         }
 
         .active {
-            background-color: #3498db;
-            color: #fff;
+            background: #00d2ff;
+            color: #000;
         }
 
-        /* Estilo do relógio */
+        /* Relógio Compacto */
         .relogio {
             display: flex;
-            gap: 20px;
+            gap: 10px;
         }
 
         .relogio div {
-            background-color: #ecf0f1;
-            width: 120px;
-            height: 120px;
+            background: #1e1e1e;
+            width: 70px;  /* Reduzido */
+            height: 70px; /* Reduzido */
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            border: 1px solid #333;
         }
 
         .relogio span {
-            font-size: 3rem;
-            font-weight: 600;
-            color: #2c3e50;
+            font-size: 1.5rem; /* Números pequenos e nítidos */
+            font-weight: bold;
         }
 
-        .relogio .tempo {
-            font-size: 0.8rem;
-            color: #7f8c8d;
-            text-transform: uppercase;
+        .tempo {
+            font-size: 0.5rem;
+            color: #00d2ff;
+            letter-spacing: 1px;
+            margin-top: 2px;
         }
 
-        /* Conteúdo de cada guia */
-        .conteudo {
-            display: none;
-        }
+        /* Seções */
+        .conteudo { display: none; }
+        .conteudo.ativo { display: block; animation: fadeIn 0.3s ease; }
 
-        .conteudo.ativo {
-            display: block;
-        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        /* Estilo adicional para o texto da aba "Configurações" */
-        .texto-configuracoes {
-            color: #ecf0f1;
-            font-size: 1.2rem;
-            line-height: 1.6;
+        .secao-container {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 12px;
+            width: 300px; /* Bem mais estreito */
             text-align: center;
-            max-width: 600px;
+            border: 1px solid #333;
         }
 
-        /* Estilo para metas e objetivos */
-        .metas {
-            margin-top: 20px;
-            color: #ecf0f1;
-            font-size: 1rem;
-        }
+        h3 { font-size: 0.9rem; margin-bottom: 12px; color: #eee; }
 
-        .metas ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
+        /* Planos de Vida Estilizados */
+        .meta-item { margin-bottom: 10px; text-align: left; }
+        .meta-label { display: flex; justify-content: space-between; font-size: 0.7rem; margin-bottom: 4px; }
+        .barra { height: 4px; background: #333; border-radius: 4px; overflow: hidden; }
+        .prog { height: 100%; background: #00d2ff; width: 0%; transition: 1s; }
 
-        .metas li {
+        /* Controles */
+        input[type="time"] {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 5px;
+            border-radius: 4px;
+            font-size: 0.8rem;
             margin-bottom: 10px;
         }
 
-        .metas li::before {
-            content: "✔️ ";
-            color: #3498db;
+        .btn {
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            border-radius: 4px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 2px;
         }
 
+        .btn-ok { background: #00d2ff; color: #000; }
+        .btn-del { background: #ff4d4d; color: #fff; }
     </style>
 </head>
 <body>
 
-    <!-- Abas -->
     <div class="tabs">
-        <div class="tab active" onclick="mudarGuia('relogio')">Relógio</div>
-        <div class="tab" onclick="mudarGuia('configuracoes')">Configurações</div>
-        <div class="tab" onclick="mudarGuia('alarme')">Alarme</div>
-        <div class="tab" onclick="mudarGuia('cronometro')">Cronômetro</div>
+        <button class="tab active" onclick="mudarGuia(this, 'relogio')">RELÓGIO</button>
+        <button class="tab" onclick="mudarGuia(this, 'planos')">PLANOS</button>
+        <button class="tab" onclick="mudarGuia(this, 'alarme')">ALARME</button>
+        <button class="tab" onclick="mudarGuia(this, 'cronometro')">CRONO</button>
     </div>
 
-    <!-- Conteúdo de cada guia -->
     <div class="conteudo ativo" id="relogio">
         <div class="relogio">
-            <div>
-                <span id="horas">00</span>
-                <span class="tempo">Horas</span>
-            </div>
-            <div>
-                <span id="minutos">00</span>
-                <span class="tempo">Minutos</span>
-            </div>
-            <div>
-                <span id="segundos">00</span>
-                <span class="tempo">Segundos</span>
-            </div>
+            <div><span id="h">00</span><span class="tempo">HRS</span></div>
+            <div><span id="m">00</span><span class="tempo">MIN</span></div>
+            <div><span id="s">00</span><span class="tempo">SEG</span></div>
         </div>
     </div>
 
-    <div class="conteudo" id="configuracoes">
-        <div class="texto-configuracoes">
-            <h3>Configurações do Relógio</h3>
-            <p>Aqui você pode personalizar o comportamento do seu relógio digital.</p>
-            <p>Em breve, você poderá acessar várias opções, como:</p>
-            <ul>
-                <li><strong>Alteração do formato de exibição:</strong> Escolher entre 12 ou 24 horas.</li>
-                <li><strong>Escolha de temas:</strong> Modificar a aparência do relógio, como cores e fontes.</li>
-                <li><strong>Configuração de alarmes:</strong> Definir alarmes para horários específicos.</li>
-                <li><strong>Configuração de sons:</strong> Ativar ou desativar sons para notificações.</li>
-            </ul>
-            <p>Essas funcionalidades estão em desenvolvimento e estarão disponíveis em versões futuras.</p>
-        </div>
-
-        <!-- Metas/Objetivos -->
-        <div class="metas">
-            <h4>Metas de Desenvolvimento</h4>
-            <p>Estas são as metas e objetivos que estamos buscando alcançar no futuro:</p>
-            <ul>
-                <li><strong>Meta 1:</strong> Implementar a personalização do formato de exibição (12 ou 24 horas).</li>
-                <li><strong>Meta 2:</strong> Adicionar temas personalizados para o relógio.</li>
-                <li><strong>Meta 3:</strong> Habilitar a configuração de alarmes, com opções de horário e sons.</li>
-                <li><strong>Meta 4:</strong> Completar o cronômetro com funcionalidades de iniciar, pausar e resetar.</li>
-            </ul>
-            <p>Essas metas são importantes para a melhoria contínua do aplicativo.</p>
+    <div class="conteudo" id="planos">
+        <div class="secao-container">
+            <h3>PLANOS DE VIDA</h3>
+            <div class="meta-item">
+                <div class="meta-label">Estudos<span>80%</span></div>
+                <div class="barra"><div class="prog" style="width: 80%"></div></div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-label">Finanças<span>45%</span></div>
+                <div class="barra"><div class="prog" style="width: 45%; background: #9d50bb"></div></div>
+            </div>
         </div>
     </div>
 
     <div class="conteudo" id="alarme">
-        <h3 style="color: #ecf0f1;">Configuração de Alarme</h3>
-        <p>Na aba de alarmes, você poderá configurar alarmes para tocar em horários específicos. Isso será útil para agendar lembretes ou alertas importantes.</p>
-        <p>Funcionalidade ainda em desenvolvimento. Em breve, você poderá definir alarmes personalizados.</p>
+        <div class="secao-container">
+            <h3>ALARME</h3>
+            <input type="time" id="valAlarme">
+            <br>
+            <button class="btn btn-ok" onclick="setAlarme()">DEFINIR</button>
+            <button class="btn btn-del" onclick="limparAlarme()">LIMPAR</button>
+            <p id="status" style="font-size: 0.65rem; margin-top: 8px; color: #00d2ff;"></p>
+        </div>
     </div>
 
     <div class="conteudo" id="cronometro">
-        <h3 style="color: #ecf0f1;">Cronômetro</h3>
-        <p>O cronômetro permite medir o tempo em segundos. Ideal para contagens regressivas, monitoramento de atividades e muito mais.</p>
-        <p>Ainda estamos trabalhando para implementar a funcionalidade completa do cronômetro. Em breve, você poderá iniciar, pausar e resetar o cronômetro conforme necessário.</p>
+        <div class="secao-container">
+            <h3 id="display">00:00:00</h3>
+            <button class="btn btn-ok" onclick="start()">INICIAR</button>
+            <button class="btn" style="background:#444; color:#fff" onclick="pause()">PAUSAR</button>
+            <button class="btn btn-del" onclick="reset()">ZERAR</button>
+        </div>
     </div>
 
     <script>
-        // Seleciona as abas
-        const tabs = document.querySelectorAll('.tab');
-        const conteudos = document.querySelectorAll('.conteudo');
-
-        // Função para mudar a guia ativa
-        function mudarGuia(guia) {
-            // Remove a classe 'ativo' de todas as abas
-            tabs.forEach(tab => tab.classList.remove('active'));
-            // Adiciona a classe 'ativo' à aba selecionada
-            document.querySelector(`.tab:nth-child(${getIndex(guia)})`).classList.add('active');
-
-            // Esconde todos os conteúdos
-            conteudos.forEach(conteudo => conteudo.classList.remove('ativo'));
-            // Exibe o conteúdo da guia selecionada
-            document.getElementById(guia).classList.add('ativo');
+        function mudarGuia(btn, id) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.conteudo').forEach(c => c.classList.remove('ativo'));
+            btn.classList.add('active');
+            document.getElementById(id).classList.add('ativo');
         }
 
-        // Função para pegar o índice da aba
-        function getIndex(guia) {
-            switch (guia) {
-                case 'relogio': return 1;
-                case 'configuracoes': return 2;
-                case 'alarme': return 3;
-                case 'cronometro': return 4;
-                default: return 1;
+        let alarme = null;
+        function atualizar() {
+            const d = new Date();
+            const hrs = String(d.getHours()).padStart(2, '0');
+            const min = String(d.getMinutes()).padStart(2, '0');
+            const seg = String(d.getSeconds()).padStart(2, '0');
+            
+            document.getElementById('h').innerText = hrs;
+            document.getElementById('m').innerText = min;
+            document.getElementById('s').innerText = seg;
+
+            if(`${hrs}:${min}` === alarme) {
+                alert("Alarme!");
+                alarme = null;
+                document.getElementById('status').innerText = "";
             }
         }
+        setInterval(atualizar, 1000);
 
-        // Função para atualizar o relógio
-        const horas = document.getElementById('horas');
-        const minutos = document.getElementById('minutos');
-        const segundos = document.getElementById('segundos');
-
-        function atualizarRelogio() {
-            let dateToday = new Date();
-            let hr = dateToday.getHours();
-            let min = dateToday.getMinutes();
-            let s = dateToday.getSeconds();
-
-            // Adiciona zero à esquerda se for menor que 10
-            if (hr < 10) hr = '0' + hr;
-            if (min < 10) min = '0' + min;
-            if (s < 10) s = '0' + s;
-
-            horas.textContent = hr;
-            minutos.textContent = min;
-            segundos.textContent = s;
+        function setAlarme() {
+            alarme = document.getElementById('valAlarme').value;
+            document.getElementById('status').innerText = "Ativo: " + alarme;
         }
 
-        // Atualizar o relógio a cada segundo
-        setInterval(atualizarRelogio, 1000);
+        function limparAlarme() {
+            alarme = null;
+            document.getElementById('status').innerText = "";
+        }
 
-        // Chama a função uma vez para inicializar o relógio imediatamente
-        atualizarRelogio();
+        let t, s = 0;
+        function start() { if(!t) t = setInterval(() => { s++; 
+            let h = Math.floor(s/3600), m = Math.floor((s%3600)/60), seg = s%60;
+            document.getElementById('display').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(seg).padStart(2,'0')}`;
+        }, 1000); }
+        function pause() { clearInterval(t); t = null; }
+        function reset() { pause(); s = 0; document.getElementById('display').innerText = "00:00:00"; }
     </script>
-
 </body>
 </html>
