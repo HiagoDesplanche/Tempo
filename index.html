@@ -1,146 +1,28 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Meus objetivos do ano</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-
-  <body>
-    <section class="conteudo-principal">
-      <h2 class="titulo-principal">Meus Objetivos do ano<span>_</span></h2>
-
-      <!-- Abas -->
-      <div class="botoes">
-        <button class="botao ativo" data-tab="0">Relógio</button>
-        <button class="botao" data-tab="1">Meus Objetivos</button>
-        <button class="botao" data-tab="2">Projetos</button>
-        <button class="botao" data-tab="3">Configurações</button>
-      </div>
-
-      <!-- Conteúdo Aba 0: Relógio -->
-      <div class="tab-conteudo ativo" id="tab-0">
-        <div class="relogio-container">
-          <!-- Relógio Analógico -->
-          <div class="relogio-analogico">
-            <svg viewBox="0 0 200 200" class="svg-relogio">
-              <!-- Círculo externo -->
-              <circle
-                cx="100"
-                cy="100"
-                r="95"
-                fill="rgba(58, 55, 94, 0.5)"
-                stroke="#6fff57"
-                stroke-width="3"
-              />
-
-              <!-- Marcadores das horas -->
-              <g id="marcadores"></g>
-
-              <!-- Centro -->
-              <circle cx="100" cy="100" r="8" fill="#6fff57" />
-
-              <!-- Ponteiros -->
-              <line
-                id="ponteiro-horas"
-                x1="100"
-                y1="100"
-                x2="100"
-                y2="55"
-                stroke="#ffffff"
-                stroke-width="6"
-                stroke-linecap="round"
-              />
-
-              <line
-                id="ponteiro-minutos"
-                x1="100"
-                y1="100"
-                x2="100"
-                y2="40"
-                stroke="#6fff57"
-                stroke-width="4"
-                stroke-linecap="round"
-              />
-
-              <line
-                id="ponteiro-segundos"
-                x1="100"
-                y1="100"
-                x2="100"
-                y2="30"
-                stroke="#3a375e"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </div>
-
-          <!-- Relógio Digital -->
-          <div class="relogio-digital">
-            <div class="tempo-container">
-              <div class="tempo-box">
-                <span class="tempo-numero" id="horas">00</span>
-                <span class="tempo-label">HORAS</span>
-              </div>
-              <div class="tempo-separador">:</div>
-              <div class="tempo-box">
-                <span class="tempo-numero" id="minutos">00</span>
-                <span class="tempo-label">MINUTOS</span>
-              </div>
-              <div class="tempo-separador">:</div>
-              <div class="tempo-box">
-                <span class="tempo-numero" id="segundos">00</span>
-                <span class="tempo-label">SEGUNDOS</span>
-              </div>
-            </div>
-
-            <!-- Data -->
-            <div class="data-container" id="data"></div>
-          </div>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relógio Digital Alura</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <div class="relogio">
+        <div>
+            <span id="horas">00</span>
+            <span class="tempo">Horas</span>
         </div>
-      </div>
-
-      <!-- Conteúdo Aba 1: Meus Objetivos -->
-      <div class="tab-conteudo" id="tab-1">
-        <div class="objetivos-lista">
-          <div class="objetivo-item destaque">
-            <h3 class="objetivo-titulo destaque">✓ Cursos na Alura</h3>
-            <p class="objetivo-texto">Continuar aprendendo e me desenvolvendo</p>
-          </div>
-          <div class="objetivo-item">
-            <h3 class="objetivo-titulo">Criar projetos em Javascript</h3>
-            <p class="objetivo-texto">Desenvolver projetos práticos e criativos</p>
-          </div>
-          <div class="objetivo-item">
-            <h3 class="objetivo-titulo">Criar um portfolio</h3>
-            <p class="objetivo-texto">Mostrar meus projetos e habilidades</p>
-          </div>
-          <div class="objetivo-item">
-            <h3 class="objetivo-titulo">Atualizar meu currículo</h3>
-            <p class="objetivo-texto">Manter informações profissionais atualizadas</p>
-          </div>
+        <div>
+            <span id="minutos">00</span>
+            <span class="tempo">Minutos</span>
         </div>
-      </div>
-
-      <!-- Conteúdo Aba 2: Projetos -->
-      <div class="tab-conteudo" id="tab-2">
-        <div class="placeholder-container">
-          <h3 class="placeholder-titulo">Meus Projetos</h3>
-          <p class="placeholder-texto">Em breve você verá aqui todos os meus projetos incríveis!</p>
+        <div>
+            <span id="segundos">00</span>
+            <span class="tempo">Segundos</span>
         </div>
-      </div>
-
-      <!-- Conteúdo Aba 3: Configurações -->
-      <div class="tab-conteudo" id="tab-3">
-        <div class="placeholder-container">
-          <h3 class="placeholder-titulo">Configurações</h3>
-          <p class="placeholder-texto">Personalize sua experiência aqui</p>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <script src="script.js"></script>
-  </body>
+</body>
 </html>
