@@ -1,87 +1,43 @@
-// Criar marcadores das horas no relógio
-function criarMarcadores() {
-  const marcadores = document.getElementById('marcadores');
-  for (let i = 0; i < 12; i++) {
-    const angle = (i * 30 - 90) * (Math.PI / 180);
-    const x1 = 100 + 80 * Math.cos(angle);
-    const y1 = 100 + 80 * Math.sin(angle);
-    const x2 = 100 + 90 * Math.cos(angle);
-    const y2 = 100 + 90 * Math.sin(angle);
-
-    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-    line.setAttribute('x1', x1);
-    line.setAttribute('y1', y1);
-    line.setAttribute('x2', x2);
-    line.setAttribute('y2', y2);
-    line.setAttribute('stroke', '#6fff57');
-    line.setAttribute('stroke-width', i % 3 === 0 ? '3' : '2');
-
-    marcadores.appendChild(line);
-  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-// Atualizar relógio
-function atualizarRelogio() {
-  const agora = new Date();
-
-  const horas = agora.getHours();
-  const minutos = agora.getMinutes();
-  const segundos = agora.getSeconds();
-
-  // Atualizar relógio digital
-  document.getElementById('horas').textContent = String(horas).padStart(2, '0');
-  document.getElementById('minutos').textContent = String(minutos).padStart(2, '0');
-  document.getElementById('segundos').textContent = String(segundos).padStart(2, '0');
-
-  // Atualizar data
-  const opcoes = {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  };
-  document.getElementById('data').textContent = agora.toLocaleDateString('pt-BR', opcoes);
-
-  // Calcular ângulos dos ponteiros
-  const segundosDegrees = (segundos / 60) * 360;
-  const minutosDegrees = (minutos / 60) * 360 + (segundos / 60) * 6;
-  const horasDegrees = ((horas % 12) / 12) * 360 + (minutos / 60) * 30;
-
-  // Atualizar ponteiros
-  document.getElementById('ponteiro-segundos').setAttribute(
-    'transform',
-    `rotate(${segundosDegrees} 100 100)`
-  );
-  document.getElementById('ponteiro-minutos').setAttribute(
-    'transform',
-    `rotate(${minutosDegrees} 100 100)`
-  );
-  document.getElementById('ponteiro-horas').setAttribute(
-    'transform',
-    `rotate(${horasDegrees} 100 100)`
-  );
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #2c3e50;
 }
 
-// Gerenciar abas
-function trocarAba(numeroAba) {
-  // Remover classe ativo de todos os botões e conteúdos
-  document.querySelectorAll('.botao').forEach(btn => btn.classList.remove('ativo'));
-  document.querySelectorAll('.tab-conteudo').forEach(tab => tab.classList.remove('ativo'));
-
-  // Adicionar classe ativo no botão e conteúdo selecionados
-  document.querySelector(`[data-tab="${numeroAba}"]`).classList.add('ativo');
-  document.getElementById(`tab-${numeroAba}`).classList.add('ativo');
+.relogio {
+    display: flex;
+    gap: 20px;
 }
 
-// Event listeners para os botões
-document.querySelectorAll('.botao').forEach(botao => {
-  botao.addEventListener('click', function() {
-    const numeroAba = this.getAttribute('data-tab');
-    trocarAba(numeroAba);
-  });
-});
+.relogio div {
+    background-color: #ecf0f1;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
 
-// Inicializar
-criarMarcadores();
-atualizarRelogio();
-setInterval(atualizarRelogio, 1000);
+.relogio span {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.relogio .tempo {
+    font-size: 0.8rem;
+    color: #7f8c8d;
+    text-transform: uppercase;
+}
